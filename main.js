@@ -34,7 +34,7 @@ async function ingest()
                 if (hm.has(obj.id) === false)
                 {
                     let arr = [];
-                    arr.push({id: obj.id, idx: i});
+                    arr.push({user: json[i], idx: i});
                     hm.set(obj.id, arr);
                 }
 
@@ -42,7 +42,7 @@ async function ingest()
                 else 
                 {
                     let arr = hm.get(obj.id);
-                    arr.push({id: obj.id, idx: i});
+                    arr.push({user: json[i], idx: i});
                     hm.set(obj.id, arr);
                 }
             }
@@ -69,7 +69,8 @@ async function ingest()
             for (let k of mapkeys)
             {
                 let userobj = {};
-                let jsonobj = json.find((o) => o['id'] === k);
+                // let jsonobj = json.find((o) => o['id'] === k);
+                let jsonobj = hm.get(k)[0].user;
                 userobj['id'] = jsonobj['id'];
                 userobj['name'] = jsonobj['name'];
                 userobj['dateOfBirth'] = jsonobj['dateOfBirth'];
@@ -77,7 +78,6 @@ async function ingest()
                 userobj['picURL'] = jsonobj['picURL'];
 
                 //For the Friends
-                // console.log(jsonobj['friends'])
                 let friendArr = [];
                 for (let friendID of jsonobj['friends'])
                 {
@@ -101,10 +101,12 @@ async function ingest()
 
                 //append to end of array 
                 newjson.push(userobj);
-
             }
 
-            // console.log(newjson)
+            //Debugging to check if order maintains
+            console.log(json.indexOf(json.find((x) => x.id === 'dcad9594-fa13-49d5-81ad-03ccf078b3f7')))
+            console.log(hm);
+
             //Making JSON file
             const jsonData = JSON.stringify(newjson, null, 2); //2 Indentation
             writeFile('cleaned.json', jsonData);
