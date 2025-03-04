@@ -2,6 +2,16 @@ import { readFile } from 'fs';
 import { writeFile } from 'fs/promises';
 
 //Read Stream file
+
+function jsonReplace(key, val)
+{
+    if (key === 'friends')
+    {
+        return JSON.parse(val);
+    } else {
+        return val;
+    }
+}
 async function ingest()
 {
     let ingest = await readFile('users.json', 'utf-8', (err, data) => {
@@ -76,9 +86,14 @@ async function ingest()
                     //Delete idx property
                     delete friendObj['idx'];
 
-                    let jsonified = JSON.stringify(friendObj);
+                    let newFriend = {};
+                    newFriend['id'] = friendObj['id'];
+                    newFriend['name'] = friendObj['name'];
+                    newFriend['dateOfBirth'] = friendObj['dateOfBirth'];
+                    newFriend['mobileNo'] = friendObj['mobileNo']
+                    newFriend['picURL'] = friendObj['picURL']
 
-                    friendArr.push(jsonified)
+                    friendArr.push(newFriend)
                     
                 }
                 
@@ -92,10 +107,7 @@ async function ingest()
             // console.log(newjson)
             //Making JSON file
             const jsonData = JSON.stringify(newjson, null, 2); //2 Indentation
-            writeFile('cleaned.json', jsonData, 'utf-8', (err, data) => {
-                if (err) console.error('Data Preprocessing has an error in the system');
-                else console.log('Successfully created the cleaned JSON data!');
-            })
+            writeFile('cleaned.json', jsonData);
 
 
 
