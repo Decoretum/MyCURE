@@ -70,11 +70,11 @@ async function ingest()
             {
                 let userobj = {};
                 let jsonobj = json.find((o) => o['id'] === k);
-                userobj['id'] = JSON.stringify(jsonobj['id'], null, 2);
-                userobj['name'] = JSON.stringify(jsonobj['name'], null, 2);
-                userobj['dateOfBirth'] = JSON.stringify(jsonobj['dateOfBirth'], null, 2);
-                userobj['mobileNo'] = JSON.stringify(jsonobj['mobileNo'], null, 2);
-                userobj['picURL'] = JSON.stringify(jsonobj['picURL'], null, 2);
+                userobj['id'] = jsonobj['id'];
+                userobj['name'] = jsonobj['name'];
+                userobj['dateOfBirth'] = jsonobj['dateOfBirth'];
+                userobj['mobileNo'] = jsonobj['mobileNo'];
+                userobj['picURL'] = jsonobj['picURL'];
 
                 //For the Friends
                 // console.log(jsonobj['friends'])
